@@ -9,9 +9,9 @@ function updateValues() {
     const scanTime = parseFloat(document.getElementById('scanTime').value);
     const enhancementPercent = parseFloat(document.getElementById('enhancementPercent').value); // 更新
 
-    const ptd1 = ((contrastTotal / injectionRate) - (scanTime * (enhancementPercent / 100))).toFixed(2);
-    const ptd2 = (parseFloat(ptd1) + scanTime + 4).toFixed(2);
-    const ptd3 = (parseFloat(ptd2) + scanTime + 4).toFixed(2);
+    const ptd1 = ((contrastTotal / injectionRate) - (scanTime * (enhancementPercent / 100))).toFixed(1);
+    const ptd2 = (parseFloat(ptd1) + scanTime + 4).toFixed(1);
+    const ptd3 = (parseFloat(ptd2) + scanTime + 4).toFixed(1);
 
     document.getElementById('ptd1').textContent = ptd1;
     document.getElementById('ptd2').textContent = ptd2;
@@ -21,13 +21,13 @@ function updateValues() {
 function resetDefaults() {
     document.getElementById('contrastTotal').value = 60;
     document.getElementById('injectionRate').value = 4.0;
-    document.getElementById('scanTime').value = 4.1;
+    document.getElementById('scanTime').value = 4.0;
     document.getElementById('enhancementPercent').value = 60; // 新增
 
     // 更新滑塊位置
     document.getElementById('contrastTotalSlider').value = 60;
     document.getElementById('injectionRateSlider').value = 4.0;
-    document.getElementById('scanTimeSlider').value = 4.1;
+    document.getElementById('scanTimeSlider').value = 4.0;
     document.getElementById('enhancementPercentSlider').value = 60; // 新增
 
     updateValues();
