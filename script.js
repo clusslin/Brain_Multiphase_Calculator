@@ -10,7 +10,7 @@ function updateValues() {
     const enhancementPercent = parseFloat(document.getElementById('enhancementPercent').value); // 更新
  
     document.getElementById('enhancementPercentDisplay').textContent = enhancementPercent + '%';
-    const ptd1 = (((contrastTotal / injectionRate) - scanTime ）* (enhancementPercent / 100)).toFixed(1);
+    const ptd1 = ((contrastTotal / injectionRate) - scanTime ）* (enhancementPercent / 100)).toFixed(1);
     const ptd2 = (parseFloat(ptd1) + scanTime + 4).toFixed(1);
     const ptd3 = (parseFloat(ptd2) + scanTime + 4).toFixed(1);
 
