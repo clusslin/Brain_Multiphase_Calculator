@@ -1,1 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
 
+#calculator {
+    margin-top: 20px;
+}
+
+#calculator label {
+    display: block;
+    margin-top: 10px;
+}
+
+#calculator input[type="number"],
+#calculator input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+#results {
+    margin-top: 20px;
+}
