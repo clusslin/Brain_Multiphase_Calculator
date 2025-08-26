@@ -12,43 +12,39 @@
         
         <div class="input-group">
             <label for="contrastTotal">CTA對比劑總量(ml):</label>
-            <div class="range-input">
-                <input type="range" min="0" max="120" value="60" id="contrastTotalSlider" oninput="syncValue('contrastTotal', this.value)"/>
-                <input type="number" id="contrastTotal" value="60" oninput="updateValues()"/>
+            <div class="button-input">
+                <button type="button" onclick="adjustValue('contrastTotal', -5)">-5</button>
+                <button type="button" onclick="adjustValue('contrastTotal', -1)">-1</button>
+                <input type="number" id="contrastTotal" value="60" min="0" max="120" readonly/>
+                <button type="button" onclick="adjustValue('contrastTotal', 1)">+1</button>
+                <button type="button" onclick="adjustValue('contrastTotal', 5)">+5</button>
             </div>
         </div>
         
         <div class="input-group">
             <label for="injectionRate">注射流速(ml/s):</label>
-            <div class="range-input">
-                <input type="range" min="0" max="10" step="0.1" value="4.0" id="injectionRateSlider" oninput="syncValue('injectionRate', this.value)"/>
-                <input type="number" id="injectionRate" step="0.1" value="4.0" oninput="updateValues()"/>
+            <div class="button-input">
+                <button type="button" onclick="adjustValue('injectionRate', -0.1)">-</button>
+                <input type="number" id="injectionRate" step="0.1" value="4.0" min="0" max="10" readonly/>
+                <button type="button" onclick="adjustValue('injectionRate', 0.1)">+</button>
             </div>
         </div>
         
         <div class="input-group">
             <label for="scanTime">CTA掃描時間(Arch to Head):</label>
-            <div class="range-input">
-                <input type="range" min="0" max="10" step="0.1" value="4.0" id="scanTimeSlider" oninput="syncValue('scanTime', this.value)"/>
-                <input type="number" id="scanTime" step="0.1" value="4.0" oninput="updateValues()"/>
+            <div class="button-input">
+                <button type="button" onclick="adjustValue('scanTime', -0.1)">-</button>
+                <input type="number" id="scanTime" step="0.1" value="4.0" min="0" max="10" readonly/>
+                <button type="button" onclick="adjustValue('scanTime', 0.1)">+</button>
             </div>
         </div>
         
-        <div class="input-group">
-            <label for="enhancementPercent">Post Threshold Ratio:</label>
-            <div class="range-input">
-                <input type="range" min="50" max="70" value="60" id="enhancementPercentSlider" oninput="syncValue('enhancementPercent', this.value)"/>
-                <input type="number" id="enhancementPercent" value="60" oninput="updateValues()"/>
-            </div>
-        </div>
-        
-        <button onclick="resetDefaults()">恢復預設值</button>
+        <button class="reset-btn" onclick="resetDefaults()">恢復預設值</button>
         
         <div id="results">
-            <p>顯影百分比: <span id="enhancementPercentDisplay">60%</span></p>
-            <p>CTA Phase1 (Arch>頭頂) PTD1: <span id="ptd1"></span></p>
-            <p>CTA Phase2 (頭頂>Arch) PTD2: <span id="ptd2"></span></p>
-            <p>CTA Phase3 (Arch>頭頂) PTD3: <span id="ptd3"></span></p>
+            <p>CTA Phase1 (Arch>頭頂) PTD1: <span id="ptd1"></span>s</p>
+            <p>CTA Phase2 (頭頂>Arch) PTD2: <span id="ptd2"></span>s</p>
+            <p>CTA Phase3 (Arch>頭頂) PTD3: <span id="ptd3"></span>s</p>
         </div>
     </div>
     
