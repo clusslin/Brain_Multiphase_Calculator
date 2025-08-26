@@ -1,53 +1,287 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain Multi-Phase Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 8px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+
+        .control-row:focus-within {
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            background: #4c51bf;
+        }
+
+        .btn-small {
+            min-width: 35px;
+            height: 35px;
+            font-size: 12px;
+        }
+
+        .input-field {
+            flex: 1;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            padding: 10px;
+            margin: 0 8px;
+        }
+
+        .input-field:focus {
+            outline: none;
+        }
+
+        .reset-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .results p {
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-weight: 700;
+            font-size: 20px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .control-row {
+                padding: 6px;
+            }
+            
+            .btn {
+                min-width: 35px;
+                height: 35px;
+                font-size: 12px;
+                padding: 8px;
+            }
+            
+            .input-field {
+                font-size: 16px;
+                margin: 0 4px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="calculator">
+    <div class="container">
         <h1>Brain Multi-Phase Calculator</h1>
         
         <div class="input-group">
-            <label for="contrastTotal">CTA對比劑總量(ml):</label>
-            <div class="button-input">
-                <button type="button" onclick="adjustValue('contrastTotal', -5)">-5</button>
-                <button type="button" onclick="adjustValue('contrastTotal', -1)">-1</button>
-                <input type="number" id="contrastTotal" value="60" min="0" max="120" readonly/>
-                <button type="button" onclick="adjustValue('contrastTotal', 1)">+1</button>
-                <button type="button" onclick="adjustValue('contrastTotal', 5)">+5</button>
+            <label>CTA對比劑總量 (ml):</label>
+            <div class="control-row">
+                <button class="btn btn-small" onclick="adjustValue('contrastTotal', -5)">-5</button>
+                <button class="btn btn-small" onclick="adjustValue('contrastTotal', -1)">-1</button>
+                <input type="number" id="contrastTotal" class="input-field" value="60" min="0" max="120" oninput="updateValues()">
+                <button class="btn btn-small" onclick="adjustValue('contrastTotal', 1)">+1</button>
+                <button class="btn btn-small" onclick="adjustValue('contrastTotal', 5)">+5</button>
             </div>
         </div>
         
         <div class="input-group">
-            <label for="injectionRate">注射流速(ml/s):</label>
-            <div class="button-input">
-                <button type="button" onclick="adjustValue('injectionRate', -0.1)">-</button>
-                <input type="number" id="injectionRate" step="0.1" value="4.0" min="0" max="10" readonly/>
-                <button type="button" onclick="adjustValue('injectionRate', 0.1)">+</button>
+            <label>注射流速 (ml/s):</label>
+            <div class="control-row">
+                <button class="btn" onclick="adjustValue('injectionRate', -0.1)">−</button>
+                <input type="number" id="injectionRate" class="input-field" step="0.1" value="4.0" min="0" max="10" oninput="updateValues()">
+                <button class="btn" onclick="adjustValue('injectionRate', 0.1)">+</button>
             </div>
         </div>
         
         <div class="input-group">
-            <label for="scanTime">CTA掃描時間(Arch to Head):</label>
-            <div class="button-input">
-                <button type="button" onclick="adjustValue('scanTime', -0.1)">-</button>
-                <input type="number" id="scanTime" step="0.1" value="4.0" min="0" max="10" readonly/>
-                <button type="button" onclick="adjustValue('scanTime', 0.1)">+</button>
+            <label>CTA掃描時間 (Arch to Head, s):</label>
+            <div class="control-row">
+                <button class="btn" onclick="adjustValue('scanTime', -0.1)">−</button>
+                <input type="number" id="scanTime" class="input-field" step="0.1" value="4.0" min="0" max="10" oninput="updateValues()">
+                <button class="btn" onclick="adjustValue('scanTime', 0.1)">+</button>
             </div>
         </div>
         
-        <button class="reset-btn" onclick="resetDefaults()">恢復預設值</button>
+        <button class="reset-btn" onclick="resetDefaults()">🔄 恢復預設值</button>
         
-        <div id="results">
-            <p>CTA Phase1 (Arch>頭頂) PTD1: <span id="ptd1"></span>s</p>
-            <p>CTA Phase2 (頭頂>Arch) PTD2: <span id="ptd2"></span>s</p>
-            <p>CTA Phase3 (Arch>頭頂) PTD3: <span id="ptd3"></span>s</p>
+        <div class="results" id="results">
+            <p>CTA Phase1 (Arch → 頭頂) PTD1: <span class="result-value" id="ptd1">0.0</span>s</p>
+            <p>CTA Phase2 (頭頂 → Arch) PTD2: <span class="result-value" id="ptd2">0.0</span>s</p>
+            <p>CTA Phase3 (Arch → 頭頂) PTD3: <span class="result-value" id="ptd3">0.0</span>s</p>
         </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        // 固定的Post Threshold Ratio為60%
+        const ENHANCEMENT_PERCENT = 60;
+
+        function adjustValue(id, delta) {
+            const input = document.getElementById(id);
+            let currentValue = parseFloat(input.value) || 0;
+            let newValue = currentValue + delta;
+            
+            // 設定範圍限制
+            const min = parseFloat(input.min) || 0;
+            const max = parseFloat(input.max) || Infinity;
+            
+            // 確保在範圍內
+            newValue = Math.max(min, Math.min(max, newValue));
+            
+            // 根據不同欄位設定小數位數
+            if (id === 'contrastTotal') {
+                newValue = Math.round(newValue);
+            } else {
+                newValue = Math.round(newValue * 10) / 10; // 保留一位小數
+            }
+            
+            input.value = newValue;
+            updateValues();
+        }
+
+        function updateValues() {
+            const contrastTotal = parseFloat(document.getElementById('contrastTotal').value);
+            const injectionRate = parseFloat(document.getElementById('injectionRate').value);
+            const scanTime = parseFloat(document.getElementById('scanTime').value);
+            
+            // 檢查輸入值是否有效
+            if (isNaN(contrastTotal) || isNaN(injectionRate) || isNaN(scanTime) || injectionRate === 0) {
+                return;
+            }
+            
+            // 使用固定的60%顯影百分比
+            const ptd1 = (((contrastTotal / injectionRate) - scanTime) * (ENHANCEMENT_PERCENT / 100)).toFixed(1);
+            const ptd2 = (parseFloat(ptd1) + scanTime + 4).toFixed(1);
+            const ptd3 = (parseFloat(ptd2) + scanTime + 4).toFixed(1);
+            
+            document.getElementById('ptd1').textContent = ptd1;
+            document.getElementById('ptd2').textContent = ptd2;
+            document.getElementById('ptd3').textContent = ptd3;
+        }
+
+        function resetDefaults() {
+            document.getElementById('contrastTotal').value = 60;
+            document.getElementById('injectionRate').value = 4.0;
+            document.getElementById('scanTime').value = 4.0;
+            updateValues();
+        }
+
+        // 頁面載入時初始更新
+        document.addEventListener('DOMContentLoaded', function() {
+            updateValues();
+        });
+
+        // 初始更新
+        updateValues();
+    </script>
 </body>
 </html>
